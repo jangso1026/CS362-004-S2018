@@ -1,0 +1,130 @@
+        -:    0:Source:testme.c
+        -:    0:Graph:testme.gcno
+        -:    0:Data:testme.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:#include<stdio.h>
+        -:    2:#include<string.h>
+        -:    3:#include<stdlib.h>
+        -:    4:#include<time.h>
+        -:    5:
+        -:    6:#define CHARACTERS_IN_ALPHABET 26
+        -:    7:#define EXTRA_CHARACTERS 7
+        -:    8:
+        -:    9:char alphabet[13] = {
+        -:   10:    'a',
+        -:   11:    //'b',
+        -:   12:    //'c',
+        -:   13:    //'d',
+        -:   14:    'e',
+        -:   15:    //'f',
+        -:   16:    //'g',
+        -:   17:    //'h',
+        -:   18:    //'i',
+        -:   19:    //'j',
+        -:   20:    //'k',
+        -:   21:    //'l',
+        -:   22:    //'m',
+        -:   23:    //'n',
+        -:   24:    //'o',
+        -:   25:    //'p',
+        -:   26:    //'q',
+        -:   27:    'r',
+        -:   28:    's',
+        -:   29:    't',
+        -:   30:    //'u',
+        -:   31:    //'v',
+        -:   32:    //'w',
+        -:   33:    'x',
+        -:   34:    //'y',
+        -:   35:    //'z',
+        -:   36:    ' ', // extra chars
+        -:   37:    '{',
+        -:   38:    '}',
+        -:   39:    '[',
+        -:   40:    ']',
+        -:   41:    '(',
+        -:   42:    ')'
+        -:   43:};
+        -:   44:
+        -:   45:char* words[1 << 16] = {};
+        -:   46:
+        -:   47:char inputChar(){
+        -:   48:    // TODO: rewrite this function
+    29796:   49:    return alphabet[rand() % (13)];
+        -:   50:}
+        -:   51:
+        -:   52:char *inputString(){
+        -:   53:    // TODO: rewrite this function
+        -:   54:    static int stringSize = 6;
+        -:   55:    int i;
+    29796:   56:    char ch[stringSize];
+        -:   57:    char *ptr;
+        -:   58:    
+   208572:   59:    for(i = 0; i < stringSize;i++){
+    89388:   60:        if(i == 5){
+    14898:   61:            ch[i] = '\0';
+    14898:   62:        }
+        -:   63:        else
+    74490:   64:            ch[i] = alphabet[rand() % 6];
+    89388:   65:    }
+        -:   66:    
+    14898:   67:    ptr = ch;
+        -:   68:    
+    14898:   69:    return ptr;
+    14898:   70:}
+        -:   71:
+        -:   72:void testme(){
+        4:   73:  int tcCount = 0;
+        -:   74:  char *s;
+        -:   75:  char c;
+        2:   76:  int state = 0;
+    14898:   77:  while (1){
+    14898:   78:    tcCount++;
+    14898:   79:    c = inputChar();
+    14898:   80:    s = inputString();
+    14898:   81:    printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+        -:   82:
+    16069:   83:      if (c == '[' && state == 0){
+        2:   84:          state = 1;
+        2:   85:      }
+    16087:   86:      if (c == '(' && state == 1){
+        2:   87:          state = 2;
+        2:   88:      }
+    16093:   89:      if (c == '{' && state == 2){
+        2:   90:          state = 3;
+        2:   91:      }
+    16062:   92:      if (c == ' '&& state == 3){
+        2:   93:          state = 4;
+        2:   94:      }
+    16047:   95:      if (c == 'a' && state == 4){
+        2:   96:          state = 5;
+        2:   97:      }
+    16036:   98:      if (c == 'x' && state == 5){
+        2:   99:          state = 6;
+        2:  100:      }
+    16024:  101:      if (c == '}' && state == 6){
+        2:  102:          state = 7;
+        2:  103:      }
+    16017:  104:      if (c == ')' && state == 7){
+        2:  105:          state = 8;
+        2:  106:      }
+    16003:  107:      if (c == ']' && state == 8){
+        2:  108:          state = 9;
+        2:  109:      }
+    17366:  110:     if (s[0] == 'r' && s[1] == 'e'
+     2934:  111:        && s[2] == 's' && s[3] == 'e'
+       62:  112:        && s[4] == 't' && s[5] == '\0'
+        4:  113:        && state == 9){
+        2:  114:       printf("error ");
+        2:  115:       exit(200);
+        -:  116:     }
+        -:  117:  }
+    #####:  118:}
+        -:  119:
+        -:  120:
+        -:  121:int main(int argc, char *argv[]){
+        2:  122:    srand(time(NULL));
+        2:  123:    testme();
+        2:  124:    return 0;
+        -:  125:}
